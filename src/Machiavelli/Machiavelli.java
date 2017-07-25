@@ -1,8 +1,11 @@
 package Machiavelli;
 
 import Machiavelli.Controllers.MenuController;
+import com.sun.org.apache.regexp.internal.RE;
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.rmi.registry.LocateRegistry;
@@ -22,6 +25,7 @@ public class Machiavelli extends Application {
     private static Machiavelli uniqueInstance;
     private Stage stage;
     private Registry registry;
+    private Rectangle2D screenBounds;
 
     /**
      * Machiavelli constructor. Is een aangepaste singleton ivm. JavaFX
@@ -44,8 +48,13 @@ public class Machiavelli extends Application {
      */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+        this.screenBounds = Screen.getPrimary().getVisualBounds();
         this.stage = primaryStage; // Create stage
         this.stage.setResizable(false); // Make stage unresizable
+        this.stage.setX(this.screenBounds.getMinX());
+        this.stage.setY(this.screenBounds.getMinY());
+        this.stage.setWidth(this.screenBounds.getWidth());
+        this.stage.setHeight(this.screenBounds.getHeight());
         this.stage.setTitle("Machiavelli"); // Set title of stage
         this.stage.getIcons().add(new Image("/Machiavelli/Resources/icon.png"));
 
@@ -54,6 +63,7 @@ public class Machiavelli extends Application {
             // get access to the RMI registry on the remote server
             // Wijzig naar lokaal ip adres voor testen
             //this.registry = LocateRegistry.getRegistry("145.97.16.203", 1099); // if server on another machine: provide that machine's IP address. Default port  1099
+          // TODO: Dont search for a server at startup.. only when trying to join a game
            this.registry = LocateRegistry.getRegistry("localhost", 1099);
             System.out.println("Done!");
         } catch (Exception e) {
@@ -92,5 +102,9 @@ public class Machiavelli extends Application {
      */
     public Registry getRegistry() {
         return this.registry;
+    }
+
+    public Rectangle2D getScreenBounds() {
+        return screenBounds;
     }
 }

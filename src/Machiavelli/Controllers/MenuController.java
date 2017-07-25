@@ -2,7 +2,6 @@ package Machiavelli.Controllers;
 
 import java.rmi.registry.Registry;
 
-import Machiavelli.Interfaces.Remotes.SpelerRemote;
 import Machiavelli.Machiavelli;
 import Machiavelli.Models.Speelveld;
 import Machiavelli.Views.InvullenSpelersView;

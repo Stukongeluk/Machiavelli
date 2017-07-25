@@ -10,7 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 /**
  * Server class voor de Machiavelli applicatie. Maakt een nieuw Registry en
  * plaats een Spel skeleton in het registry.
- *
+ * TODO: Dont explictily start the server, but let it be started by an user when creating an game
  * @author Daan Rosbergen
  * @version 1.0
  */
@@ -21,7 +21,6 @@ public class Server {
      */
 	public void startServer(){
         try {
-
             // Hardcode ipadres van server, zet deze uit voor lokale tests.
             //System.setProperty("java.rmi.server.hostname", "145.97.16.203"); // Hardcode ipadres van server
             System.out.println("RMI Registry starter");

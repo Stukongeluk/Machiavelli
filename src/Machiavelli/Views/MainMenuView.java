@@ -2,6 +2,7 @@ package Machiavelli.Views;
 
 import Machiavelli.Controllers.MenuController;
 import Machiavelli.Machiavelli;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,8 +28,9 @@ public class MainMenuView {
     private Scene mainMenu;
     private Scene mainSelect;
     private Stage stage = Machiavelli.getInstance().getStage();
+    private Rectangle2D screenbounds = Machiavelli.getInstance().getScreenBounds();
     private MenuController menuController;
-    
+
     /**
      * @author Jimmy
      * Edited by: Daan & Jamie
@@ -38,21 +40,12 @@ public class MainMenuView {
      */
 
     public MainMenuView(MenuController menuController) {
+        double screenwidth = screenbounds.getWidth();
+        double screenheight = screenbounds.getHeight();
+        double centerX = screenbounds.getWidth()/2;
+        double centerY = screenbounds.getHeight()/2;
 
-        // Versienummer, voorkomt het glitchen van het achtergrond bij het openen van een nieuwe
-        // pane, in de scene.
-        Text versieNummer = new Text();
-        versieNummer.setText("V. 1.0");
-        versieNummer.setFill(Color.WHITE);
-        versieNummer.setLayoutX(1420);
-        versieNummer.setLayoutY(910);
-
-        Text versieNummer2 = new Text();
-        versieNummer2.setText("V. 1.0");
-        versieNummer2.setFill(Color.WHITE);
-        versieNummer2.setLayoutX(1420);
-        versieNummer2.setLayoutY(910);
-
+        float buttonWidth = 200f;
         Pane mainMenuPane = new Pane();
         Pane mainSelectPane = new Pane();
 
@@ -71,27 +64,19 @@ public class MainMenuView {
         DropShadow ds = new DropShadow();
         ds.setOffsetY(2);
         mainTx.setEffect(ds);
-        mainTx.setScaleX(7);
-        mainTx.setScaleY(6.5);
-        mainTx.setLayoutX(780);
-        mainTx.setLayoutY(320);
-
-        Text mainTx2 = new Text("Machiavelli");
-        mainTx2.setFill(Color.WHITE);
-        mainTx2.setEffect(ds);
-        mainTx2.setScaleX(7);
-        mainTx2.setScaleY(6.5);
-        mainTx2.setLayoutX(780);
-        mainTx2.setLayoutY(170);
+        mainTx.setScaleX(4);
+        mainTx.setScaleY(4);
+        mainTx.setLayoutX(centerX);
+        mainTx.setLayoutY(centerY - (centerY/1.5));
 
         // Knoppen definieren
-        initButton(startbutton, "Kies spel", "buttonstart", 700, 450, 200f, 75f, "button-success");
-        initButton(exitbutton, "Afsluiten", "buttonexit", 700, 530, 200f, 75f, "button-danger");
+        initButton(startbutton, "Kies spel", "buttonstart", centerX -(buttonWidth/2), 450, buttonWidth, 75f, "button-success");
+        initButton(exitbutton, "Afsluiten", "buttonexit", centerX -(buttonWidth/2), 530, buttonWidth, 75f, "button-danger");
         initButton(spelregels, "Spelregels", "buttonregels", 15, 10, 125f, 50f, "button-primary");
-        initButton(nieuwspelknop, "Nieuw spel", "gamekiezen", 700, 290, 200f, 75f, "button-primary");
-        initButton(hervattenknop, "Hervatten", "gamekiezen", 700, 370, 200f, 75f, "button-primary");
-        initButton(deelnemenknop, "Deelnemen", "gamekiezen", 700, 450, 200f, 75f, "button-primary");
-        initButton(exitbutton2, "Afsluiten", "buttonexit", 700, 530, 200f, 75f, "button-danger");
+        initButton(nieuwspelknop, "Nieuw spel", "gamekiezen", centerX  -(buttonWidth/2), 290, buttonWidth, 75f, "button-primary");
+        initButton(hervattenknop, "Hervatten", "gamekiezen", centerX -(buttonWidth/2), 370, buttonWidth, 75f, "button-primary");
+        initButton(deelnemenknop, "Deelnemen", "gamekiezen", centerX -(buttonWidth/2), 450, buttonWidth, 75f, "button-primary");
+        initButton(exitbutton2, "Afsluiten", "buttonexit", centerX -(buttonWidth/2), 530, buttonWidth, 75f, "button-danger");
         initButton(spelregels2, "Spelregels", "buttonregels", 15, 10, 125f, 50f, "button-primary");
 
         Image spelregelsbg = new Image("Machiavelli/Resources/SpelregelsBorder.png");
@@ -107,18 +92,18 @@ public class MainMenuView {
         // toevoegen van elementen aan het frame
         mainMenuPane.getChildren().addAll(iv, startbutton, exitbutton, spelregels, mainTx);
         mainMenuPane.getStyleClass().add("menu");
-        mainMenuPane.setPrefSize(1440, 900);
+        mainMenuPane.setPrefSize(screenwidth, screenheight);
         mainSelectPane.getChildren().addAll(iv2, nieuwspelknop, hervattenknop, deelnemenknop,
-                exitbutton2, spelregels2, mainTx2);
+                exitbutton2, spelregels2, mainTx);
         mainSelectPane.getStyleClass().add("menu");
-        mainSelectPane.setPrefSize(1440, 900);
+        mainSelectPane.setPrefSize(screenwidth, screenheight);
 
         Pane container1 = new Pane();
-        container1.setPrefSize(1440, 900);
+        container1.setPrefSize(screenwidth, screenheight);
         container1.getChildren().add(mainMenuPane);
 
         Pane container2 = new Pane();
-        container2.setPrefSize(1440, 900);
+        container2.setPrefSize(screenwidth, screenheight);
         container2.getChildren().add(mainSelectPane);
 
         container1.getStylesheets().add("Machiavelli/Resources/style.css");
@@ -133,12 +118,12 @@ public class MainMenuView {
         container2.setCacheHint(CacheHint.SPEED);
 
         // Instellen wat er weergeven moet worden
-        mainSelect = new Scene(container2, 1440, 900);
-        mainMenu = new Scene(container1, 1440, 900);
+        mainSelect = new Scene(container2, screenwidth, screenheight);
+        mainMenu = new Scene(container1, screenwidth, screenheight);
         this.menuController = menuController;
     }
 
-    public void initButton(Button button, String tekst, String id, int posx, int posy, float sizeX,
+    public void initButton(Button button, String tekst, String id, double posx, double posy, float sizeX,
             float sizeY, String className) {
         button.setText(tekst);
         button.setId(id);

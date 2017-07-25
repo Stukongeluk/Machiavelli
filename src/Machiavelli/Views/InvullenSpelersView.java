@@ -6,7 +6,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -23,22 +26,30 @@ public class InvullenSpelersView extends TextField {
 
 	public InvullenSpelersView(MenuController menuController){
 		this.menuController = menuController;
-		
-		StackPane stackpane = new StackPane();
-		
+		VBox vbox = new VBox();
+		HBox hbox = new HBox();
 		invoertekst = new Text("Vul hier minimaal 2 en maximaal 7 spelers in");
+		invoertekst.setFill(Color.WHITE);
 		okbutton    = new Button("Ok");
+		okbutton.getStyleClass().add("button-success");
+		okbutton.setPrefWidth(70);
 		terugbutton = new Button("Terug");
+		terugbutton.getStyleClass().add("button-danger");
+		terugbutton.setPrefWidth(70);
+		hbox.getChildren().addAll(okbutton, terugbutton);
+		hbox.setSpacing(20);
+		hbox.setAlignment(Pos.CENTER);
 
         textfield   = new TextField();
-		textfield.setMaxSize(50, 10);
+		textfield.setMaxSize(170, 10);
+		textfield.setAlignment(Pos.CENTER);
+
+		vbox.getStylesheets().add("Machiavelli/Resources/style.css");
+		vbox.getStyleClass().add("menu");
+		vbox.getChildren().addAll(invoertekst,textfield, hbox);
+		vbox.setAlignment(Pos.CENTER);
 		
-		stackpane.getChildren().addAll(textfield, okbutton, terugbutton,invoertekst);
-		StackPane.setAlignment(invoertekst, Pos.TOP_CENTER);
-		StackPane.setAlignment(okbutton, Pos.BOTTOM_LEFT);
-		StackPane.setAlignment(terugbutton, Pos.BOTTOM_RIGHT);
-		
-		invulscene = new Scene(stackpane, 400, 200);
+		invulscene = new Scene(vbox, 400, 200);
 	}
  
     public void show(){
